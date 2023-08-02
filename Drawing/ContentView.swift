@@ -67,39 +67,39 @@ import SwiftUI
 //        return path
 //    }
 //}
-//struct ColorCyclingCircle: View {
-//    var amount = 0.0
-//    var steps = 100
-//
-//    var body: some View {
-//        ZStack {
-//            ForEach(0..<steps) { value in
-//                Circle()
-//                    .inset(by: Double(value))
-//                    .strokeBorder(
-//                        LinearGradient(gradient: Gradient(colors: [
-//                            color(for: value, brightness: 1),
-//                            color(for: value, brightness: 0.5)
-//                        ]),
-//                        startPoint: .top,
-//                        endPoint: .bottom),
-//                        lineWidth: 2
-//                    )
-//            }
-//        }
-//        .drawingGroup()
-//    }
-//
-//    func color(for value: Int, brightness: Double) -> Color {
-//        var targetHue = Double(value) / Double(steps) + amount
-//
-//        if targetHue > 1 {
-//            targetHue -= 1
-//        }
-//        return Color(hue: targetHue, saturation: 1, brightness: brightness)
-//
-//    }
-//}
+struct ColorCyclingCircle: View {
+    var amount = 0.0
+    var steps = 100
+
+    var body: some View {
+        ZStack {
+            ForEach(0..<steps) { value in
+                Circle()
+                    .inset(by: Double(value))
+                    .strokeBorder(
+                        LinearGradient(gradient: Gradient(colors: [
+                            color(for: value, brightness: 1),
+                            color(for: value, brightness: 0.5)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom),
+                        lineWidth: 2
+                    )
+            }
+        }
+        .drawingGroup()
+    }
+
+    func color(for value: Int, brightness: Double) -> Color {
+        var targetHue = Double(value) / Double(steps) + amount
+
+        if targetHue > 1 {
+            targetHue -= 1
+        }
+        return Color(hue: targetHue, saturation: 1, brightness: brightness)
+
+    }
+}
 //struct Trapezoid: Shape {
 //    var insetAmount: Double
 //
@@ -121,58 +121,58 @@ import SwiftUI
 //        return path
 //    }
 //}
-struct Checkerboard: Shape {
-    var rows: Int
-    var columns: Int
-    
-    var animatableData: AnimatablePair<Double, Double> {
-        get {
-            AnimatablePair(Double(rows), Double(columns))
-        }
-        set {
-            rows = Int(newValue.first)
-            columns = Int(newValue.second)
-        }
-    }
-        
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        
-        let rowSize = rect.height / Double(rows)
-        let columnSize = rect.width / Double(columns)
-        
-        for row in 0..<rows {
-            for column in 0..<columns {
-                if (row + column).isMultiple(of:2) {
-                    let startX = columnSize * Double(column)
-                    let startY = rowSize * Double(row)
-                    
-                    let rect = CGRect(x: startX, y: startY, width: columnSize, height: rowSize)
-                    path.addRect(rect)
-                }
-            }
-        }
-        return path
-    }
-}
+//struct Checkerboard: Shape {
+//    var rows: Int
+//    var columns: Int
+//
+//    var animatableData: AnimatablePair<Double, Double> {
+//        get {
+//            AnimatablePair(Double(rows), Double(columns))
+//        }
+//        set {
+//            rows = Int(newValue.first)
+//            columns = Int(newValue.second)
+//        }
+//    }
+//
+//    func path(in rect: CGRect) -> Path {
+//        var path = Path()
+//
+//        let rowSize = rect.height / Double(rows)
+//        let columnSize = rect.width / Double(columns)
+//
+//        for row in 0..<rows {
+//            for column in 0..<columns {
+//                if (row + column).isMultiple(of:2) {
+//                    let startX = columnSize * Double(column)
+//                    let startY = rowSize * Double(row)
+//
+//                    let rect = CGRect(x: startX, y: startY, width: columnSize, height: rowSize)
+//                    path.addRect(rect)
+//                }
+//            }
+//        }
+//        return path
+//    }
+//}
 
 struct ContentView: View {
 //    @State private var petalOffset = -20.0
 //    @State private var petalWidth = 100.0
 //    @State private var colorCycle = 0.0
-//    @State private var amount = 0.0
+    @State private var amount = 0.0
 //    @State private var insetAmount = 0.0
-    @State private var rows = 4
-    @State private var columns = 4
+//    @State private var rows = 4
+//    @State private var columns = 4
     
     var body: some View {
-        Checkerboard(rows: rows, columns: columns)
-            .onTapGesture {
-                withAnimation(.linear(duration: 3)) {
-                    rows = 8
-                    columns = 16
-                }
-            }
+//        Checkerboard(rows: rows, columns: columns)
+//            .onTapGesture {
+//                withAnimation(.linear(duration: 3)) {
+//                    rows = 8
+//                    columns = 16
+//                }
+//            }
 //        Trapezoid(insetAmount: insetAmount)
 //            .frame(width: 200, height: 100)
 //            .onTapGesture {
@@ -180,37 +180,77 @@ struct ContentView: View {
 //                    insetAmount = Double.random(in: 10...90)
 //                }
 //            }
-//        VStack {
-//            ZStack {
-//                ZStack {
-//                    Circle()
-//                        .fill(Color(red: 1, green: 0, blue: 0))
-//                        .frame(width: 200 * amount)
-//                        .offset(x: -50, y: -100)
-//                        .blendMode(.screen)
-//                    Circle()
-//                        .fill(Color(red: 0, green: 1, blue: 0))
-//                        .frame(width: 200 * amount)
-//                        .offset(x: 50, y: -100)
-//                        .blendMode(.screen)
-//                    Circle()
-//                        .fill(Color(red: 0, green: 0, blue: 1))
-//                        .frame(width: 200 * amount)
-//                        .blendMode(.screen)
-//    //                Circle()
-//    //                    .fill(.yellow)
-//    //                    .frame(width: 200 * amount)
-//    //                    .offset(x: 0, y: -62)
-//    //                    .blendMode(.screen)
+            ZStack {
+                Color(.gray)
+                ZStack {
+                    Rectangle()
+                        .fill(.orange)
+                        .cornerRadius(100.0)
+                        .frame(width: 200 * 0.40, height: 100)
+                        .offset(x: 0, y: -60)
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.blue)
+                        .cornerRadius(100.0)
+                        .frame(width: 200 * 0.40, height: 100)
+                        .offset(x: 0, y: 60)
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.green)
+                        .cornerRadius(100.0)
+                        .frame(width: 100, height: 200 * 0.40)
+                        .offset(x: 60, y: 0)
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.pink)
+                        .cornerRadius(100.0)
+                        .frame(width: 100, height: 200 * 0.40)
+                        .offset(x: -60, y: 0)
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.red)
+                        .cornerRadius(100.0)
+                        .frame(width: 200 * 0.40, height: 100)
+                        .offset(x: 0, y: -60)
+                        .rotationEffect(Angle(degrees: 315.0))
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.yellow)
+                        .cornerRadius(100.0)
+                        .frame(width: 200 * 0.40, height: 100)
+                        .offset(x: 0, y: -60)
+                        .rotationEffect(Angle(degrees: 45.0))
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.mint)
+                        .cornerRadius(100.0)
+                        .frame(width: 200 * 0.40, height: 100)
+                        .offset(x: 0, y: -60)
+                        .rotationEffect(Angle(degrees: 135.0))
+                        .blendMode(.plusDarker)
+                    Rectangle()
+                        .fill(.purple)
+                        .cornerRadius(100.0)
+                        .frame(width: 200 * 0.40, height: 100)
+                        .offset(x: 0, y: -60)
+                        .rotationEffect(Angle(degrees: 225.0))
+                        .blendMode(.plusDarker)
+                    //                Circle()
+                    //                    .fill(.yellow)
+                    //                    .frame(width: 200 * amount)
+                    //                    .offset(x: 0, y: -62)
+                    //                    .blendMode(.screen)
+                    
+                }
+                .frame(maxWidth: 300, maxHeight: 300)
+                .background(.white)
+                .ignoresSafeArea()
+                
+//                VStack {
 //                    Slider(value: $amount)
 //                        .padding()
-//
 //                }
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(.black)
-//                .ignoresSafeArea()
-//            }
-//        }
+            }
         
 //        VStack {
 //            ColorCyclingCircle(amount: colorCycle)
